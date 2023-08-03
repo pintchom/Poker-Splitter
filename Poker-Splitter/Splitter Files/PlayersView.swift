@@ -14,8 +14,9 @@ struct Player {
 }
 
 struct PlayersView: View {
-    @State private var players = [Player(name: "", buyin: 0.0, cashout: 0.0)] // Initial player
-    @State private var host = "Host"
+    var host: String
+    var payment: String
+    @State private var players = [Player(name: "", buyin: 0.0, cashout: 0.0)]
     @State private var showResults = false
     
     var body: some View {
@@ -47,6 +48,10 @@ struct PlayersView: View {
                     ForEach(players, id: \.name) { player in
                         Text(resultStatement(for: player))
                     }
+                    Text("Send Money to \(payment)")
+                        .font(.largeTitle)
+                        .multilineTextAlignment(.center)
+                        .fontWeight(.bold)
                 }
             }
             HStack {
@@ -92,6 +97,6 @@ struct PlayersView: View {
 
 struct PlayersView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayersView()
+        PlayersView(host: "", payment: "")
     }
 }

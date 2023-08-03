@@ -64,14 +64,14 @@ struct HomeView: View {
                         .ignoresSafeArea()
                         .padding()
                     TextField("Email", text: $email)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .padding(.horizontal)
                         .padding()
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(50)
                         .multilineTextAlignment(.center)
                     SecureField("Password", text: $password)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .padding(.horizontal)
                         .padding()
                         .background(Color.gray.opacity(0.1))
@@ -86,7 +86,7 @@ struct HomeView: View {
                                 .padding()
                                 .background(.red)
                                 .multilineTextAlignment(.center)
-                                .foregroundColor(.black)
+                                .foregroundColor(.white)
                                 .cornerRadius(20)
                         }
                         
@@ -97,7 +97,7 @@ struct HomeView: View {
                                 .padding()
                                 .background(.red)
                                 .multilineTextAlignment(.center)
-                                .foregroundColor(.black)
+                                .foregroundColor(.white)
                                 .cornerRadius(20)
                         }
                     }

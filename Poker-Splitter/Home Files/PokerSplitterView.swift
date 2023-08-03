@@ -10,10 +10,18 @@ import SwiftUI
 struct PokerSplitterView: View {
     @State private var currentInput: String = ""
     @State private var host: String = ""
-    @State private var navigateToPlayersView = false
-
+    @State private var moveToSplitter = false
+    @State private var moveToAnalytics = false
+    
     var body: some View {
-        NavigationView {
+        
+        if moveToSplitter {
+            SplitterView()
+        }
+        else if moveToAnalytics {
+            AnalyticsView()
+        } else {
+            
             VStack {
                 HStack {
                     Image(systemName: "suit.spade.fill")
@@ -35,25 +43,31 @@ struct PokerSplitterView: View {
                 }
                 Text("POKER SPLITTER")
                     .font(.largeTitle)
-                TextField("Enter host name", text: $currentInput)
-                    .padding([.leading, .bottom, .trailing])
-                    .multilineTextAlignment(.center)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
+                
                 Button(action: {
-                    self.host = self.currentInput
-                    print("Host: \(self.host)")
-                    self.navigateToPlayersView = true
+                    self.moveToSplitter = true
                 }) {
-                    Text("Submit")
-                        .font(.headline)
+                    Text("SPLITTER")
+                        .font(.system(size: 25))
                         .padding()
-                        .background(Color.black)
                         .foregroundColor(.white)
-                        .cornerRadius(10)
                 }
-                NavigationLink("", destination: PlayersView(), isActive: $navigateToPlayersView)
-                    .hidden()
+                .frame(width: 200, height: 50)
+                .background(Color.gray)
+                .cornerRadius(20)
+
+                
+                Button(action: {
+                    self.moveToAnalytics = true
+                }) {
+                    Text("ANALYTICS")
+                        .font(.system(size: 25))
+                        .padding()
+                        .foregroundColor(.white)
+                }
+                .frame(width: 200, height: 50)
+                .background(Color.gray)
+                .cornerRadius(20)
             }
         }
     }
