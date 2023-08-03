@@ -13,29 +13,129 @@ struct HomeView: View {
     @EnvironmentObject var session: SessionStore
     @State var email: String = ""
     @State var password: String = ""
+    @State var isAuthenticated = false
+    @State var errorMessage: String?
 
     var body: some View {
         VStack {
-            if session.session != nil {
-                Text("Welcome, \(session.session!.displayName ?? "User")!")
+            if isAuthenticated {
+                PokerSplitterView()
             } else {
-                TextField("Email", text: $email)
-                SecureField("Password", text: $password)
-                Button(action: signIn) {
-                    Text("Sign In")
+                if let userSession = session.session, !userSession.uid.isEmpty {
+                    Text("Welcome Back!")
+                        .padding()
+                        .foregroundColor(.black)
+                        .font(.largeTitle)
+                        .fontWeight(.black)
+                    TextField("Email", text: $email)
+                        .foregroundColor(.black)
+                        .padding(.horizontal)
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(50)
+                        .multilineTextAlignment(.center)
+                    SecureField("Password", text: $password)
+                        .foregroundColor(.black)
+                        .padding(.horizontal)
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(50)
+                        .multilineTextAlignment(.center)
+                    Button(action: signIn) {
+                        Text("Sign In")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding()
+                            .background(.red)
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.white)
+                            .cornerRadius(20)
+                    }
+                    if let errorMessage = errorMessage {
+                                        Text(errorMessage)
+                                            .foregroundColor(.red)
+                                            .padding()
+                                    }
+                } else {
+                    Text("PokerSplitter")
+                        .font(.system(size: 30))
+                        .fontWeight(.bold)
+                        .frame(width: 400)
+                        .ignoresSafeArea()
+                        .padding()
+                    TextField("Email", text: $email)
+                        .foregroundColor(.white)
+                        .padding(.horizontal)
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(50)
+                        .multilineTextAlignment(.center)
+                    SecureField("Password", text: $password)
+                        .foregroundColor(.white)
+                        .padding(.horizontal)
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(50)
+                        .multilineTextAlignment(.center)
+                    
+                    HStack {
+                        Button(action: signIn) {
+                            Text("Sign In")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding()
+                                .background(.red)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.black)
+                                .cornerRadius(20)
+                        }
+                        
+                        Button(action: signUp) {
+                            Text("Sign Up")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding()
+                                .background(.red)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.black)
+                                .cornerRadius(20)
+                        }
+                    }
+                    .padding(.top)
+                    .padding(.top)
+                    if let errorMessage = errorMessage {
+                                        Text(errorMessage)
+                                            .foregroundColor(.red)
+                                            .padding()
+                                    }
                 }
             }
-        }.onAppear(perform: session.listen)
+        }.padding(.horizontal).onAppear(perform: session.listen)
     }
 
     func signIn() {
         session.signIn(email: email, password: password) { (result, error) in
             if let error = error {
                 print("Error signing in: \(error)")
+                errorMessage = "Account not found. Please try again." // Set error message
                 return
             }
-            // Handle successful sign in
+           print("Sign In")
+            isAuthenticated = true
         }
+    }
+    func signUp() {
+        session.signUp(email: email, password: password) { (result, error) in
+            if let error = error {
+                print("Error signing up: \(error)")
+                return
+            }
+            print("Signed Up")
+            isAuthenticated = true
+        }
+    }
+    func authenticate() {
+        isAuthenticated = true
     }
 }
 

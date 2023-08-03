@@ -14,7 +14,7 @@ struct Poker_SplitterApp: App {
     
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            HomeView().environmentObject(SessionStore())
         }
     }
 }

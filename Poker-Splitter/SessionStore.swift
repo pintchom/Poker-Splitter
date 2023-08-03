@@ -36,6 +36,9 @@ class SessionStore: ObservableObject {
     func signIn(email: String, password: String, handler: @escaping (AuthDataResult?, Error?) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password, completion: handler)
     }
+    func signUp(email: String, password: String, handler: @escaping (AuthDataResult?, Error?) -> Void) {
+        Auth.auth().createUser(withEmail: email, password: password, completion: handler)
+    }
 
     func signOut() -> Bool {
         do {
