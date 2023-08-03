@@ -13,9 +13,9 @@
 		0A6FB6552A7A167000066E84 /* Poker_SplitterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FB6542A7A167000066E84 /* Poker_SplitterTests.swift */; };
 		0A6FB65F2A7A167000066E84 /* Poker_SplitterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FB65E2A7A167000066E84 /* Poker_SplitterUITests.swift */; };
 		0A6FB6612A7A167000066E84 /* Poker_SplitterUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FB6602A7A167000066E84 /* Poker_SplitterUITestsLaunchTests.swift */; };
-		0A6FB66E2A7A16A500066E84 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FB66D2A7A16A500066E84 /* Home.swift */; };
-		0A6FB6702A7A16B600066E84 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FB66F2A7A16B600066E84 /* HomeView.swift */; };
 		0A6FB6732A7A193D00066E84 /* PlayersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FB6722A7A193D00066E84 /* PlayersView.swift */; };
+		0AB0F61A2A7B4AD0007CEE05 /* PokerSplitterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB0F6192A7B4AD0007CEE05 /* PokerSplitterView.swift */; };
+		0AB0F61C2A7B4B99007CEE05 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB0F61B2A7B4B99007CEE05 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,9 +45,9 @@
 		0A6FB65A2A7A167000066E84 /* Poker-SplitterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Poker-SplitterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6FB65E2A7A167000066E84 /* Poker_SplitterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poker_SplitterUITests.swift; sourceTree = "<group>"; };
 		0A6FB6602A7A167000066E84 /* Poker_SplitterUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poker_SplitterUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		0A6FB66D2A7A16A500066E84 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
-		0A6FB66F2A7A16B600066E84 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		0A6FB6722A7A193D00066E84 /* PlayersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersView.swift; sourceTree = "<group>"; };
+		0AB0F6192A7B4AD0007CEE05 /* PokerSplitterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokerSplitterView.swift; sourceTree = "<group>"; };
+		0AB0F61B2A7B4B99007CEE05 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				0A6FB6432A7A167000066E84 /* Poker_SplitterApp.swift */,
-				0A6FB66D2A7A16A500066E84 /* Home.swift */,
-				0A6FB66F2A7A16B600066E84 /* HomeView.swift */,
+				0AB0F61B2A7B4B99007CEE05 /* HomeView.swift */,
+				0AB0F6192A7B4AD0007CEE05 /* PokerSplitterView.swift */,
 				0A6FB6722A7A193D00066E84 /* PlayersView.swift */,
 				0A6FB6472A7A167000066E84 /* Assets.xcassets */,
 				0A6FB6492A7A167000066E84 /* Preview Content */,
@@ -263,10 +263,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A6FB6702A7A16B600066E84 /* HomeView.swift in Sources */,
-				0A6FB66E2A7A16A500066E84 /* Home.swift in Sources */,
 				0A6FB6442A7A167000066E84 /* Poker_SplitterApp.swift in Sources */,
+				0AB0F61C2A7B4B99007CEE05 /* HomeView.swift in Sources */,
 				0A6FB6732A7A193D00066E84 /* PlayersView.swift in Sources */,
+				0AB0F61A2A7B4AD0007CEE05 /* PokerSplitterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

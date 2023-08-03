@@ -11,7 +11,7 @@ import SwiftUI
 struct Poker_SplitterApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            PokerSplitterView()
         }
     }
 }
