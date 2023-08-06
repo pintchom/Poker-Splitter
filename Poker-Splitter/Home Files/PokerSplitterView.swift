@@ -11,15 +11,15 @@ struct PokerSplitterView: View {
     @State private var currentInput: String = ""
     @State private var host: String = ""
     @State private var moveToSplitter = false
-    @State private var moveToAnalytics = false
+    @State private var moveToGameHistory = false
     
     var body: some View {
         
         if moveToSplitter {
             SplitterView()
         }
-        else if moveToAnalytics {
-            AnalyticsView()
+        else if moveToGameHistory {
+            GameHistoryView()
         } else {
             
             VStack {
@@ -58,7 +58,7 @@ struct PokerSplitterView: View {
 
                 
                 Button(action: {
-                    self.moveToAnalytics = true
+                    self.moveToGameHistory = true
                 }) {
                     Text("ANALYTICS")
                         .font(.system(size: 25))

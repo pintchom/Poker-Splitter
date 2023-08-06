@@ -41,15 +41,28 @@ struct HomeView: View {
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(50)
                         .multilineTextAlignment(.center)
-                    Button(action: signIn) {
-                        Text("Sign In")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .padding()
-                            .background(.red)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.white)
-                            .cornerRadius(20)
+                    HStack {
+                        Button(action: signIn) {
+                            Text("Sign In")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding()
+                                .background(.red)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.white)
+                                .cornerRadius(20)
+                        }
+                        
+                        Button(action: signUp) {
+                            Text("Sign Up")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding()
+                                .background(.red)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.white)
+                                .cornerRadius(20)
+                        }
                     }
                     if let errorMessage = errorMessage {
                                         Text(errorMessage)

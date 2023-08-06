@@ -5,6 +5,8 @@
 //  Created by Max Pintchouk on 8/2/23.
 //
 
+import FirebaseAuth
+import FirebaseFirestore
 import SwiftUI
 
 struct Player {
@@ -18,6 +20,10 @@ struct PlayersView: View {
     var payment: String
     @State private var players = [Player(name: "", buyin: 0.0, cashout: 0.0)]
     @State private var showResults = false
+    @State private var currentUserID: String = ""
+    @State private var saveButtonText: String = "Save Game"
+    
+    
     
     var body: some View {
         VStack {
@@ -81,8 +87,30 @@ struct PlayersView: View {
                         .cornerRadius(10)
                 }
                 .padding()
+                if showResults {
+                    Button(action: {
+                        saveButtonText = "Saved!"
+                        saveGame()
+                    }) {
+                        Text(saveButtonText)
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .padding()
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding()
+                }
             }
         }
+        .onAppear {
+                    if let user = Auth.auth().currentUser {
+                        currentUserID = user.uid
+                    } else {
+                        print("No user is signed in.")
+                    }
+                }
     }
     
     private func resultStatement(for player: Player) -> String {
@@ -92,6 +120,10 @@ struct PlayersView: View {
         } else {
             return "\(player.name) gets $\(difference) from \(host)"
         }
+    }
+    func saveGame() {
+        let game = SaveGame(host: host, players: players, userID: currentUserID)
+        game.saveToFirestore()
     }
 }
 
