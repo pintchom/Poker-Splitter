@@ -13,7 +13,9 @@ import FirebaseAuth
 struct GameSession {
     var id: String
     var host: String
+    var comments: String
     var players: [Player]
+    var date: Date
 }
 
 struct GameHistoryView: View {
@@ -40,21 +42,56 @@ struct GameHistoryView: View {
                         VStack {
                             ForEach(gameSessions, id: \.id) { game in
                                 
-                                
                                 Button(action: {
                                     self.selectedGame = game
                                 }) {
                                     VStack(alignment: .leading) {
+                                        Text(game.formattedDate)
+                                            .fontWeight(.bold)
+                                            .font(.title2)
+                                            .foregroundColor(.black)
+                                            .padding(.bottom)
+                                            .multilineTextAlignment(.leading)
                                         Text("Host: \(game.host)")
                                             .font(.headline)
+                                            .foregroundColor(.black)
+                                            .padding(.bottom)
                                         ForEach(game.players, id: \.name) { player in
-                                            Text("Player: \(player.name), Buy-in: \(player.buyin), Cash-out: \(player.cashout)")
+                                            VStack(alignment: .leading) {
+                                                Text("Player: \(player.name)")
+                                                    .foregroundColor(.black)
+                                                
+                                                
+                                                if player.buyin > player.cashout {
+                                                    Text("Buy-in: \(String(format: "%.2f", player.buyin)), Cash-out: \(String(format: "%.2f", player.cashout))")
+                                                        .foregroundColor(.red)
+                                                    
+                                                }
+                                                else if player.buyin < player.cashout {
+                                                    Text("Buy-in: \(String(format: "%.2f", player.buyin)), Cash-out: \(String(format: "%.2f", player.cashout))")
+                                                        .foregroundColor(.green)
+                                                    
+                                                } else {
+                                                    Text("Buy-in: \(String(format: "%.2f", player.buyin)), Cash-out: \(String(format: "%.2f", player.cashout))")
+                                                        .foregroundColor(.gray)
+                                                    
+                                                }
+                                                if player.cashout == 0 {
+                                                    Text("Wow, that's awkward....")
+                                                        .foregroundColor(.red)
+                                                }
+                                            }
+                                            .padding(.bottom)
                                         }
+                                        Text("Click to View More")
+                                            .foregroundColor(.blue)
                                     }
                                     .padding()
+                                    .frame(width:325)
                                     .background(Color.gray.opacity(0.1))
                                     .cornerRadius(10)
                                     .padding(.horizontal)
+                                    .multilineTextAlignment(.leading)
                                 }
                                 
                             }
@@ -95,6 +132,7 @@ struct GameHistoryView: View {
                     let data = queryDocumentSnapshot.data()
                     
                     guard let host = data["host"] as? String else { return nil }
+                    guard let comments = data["comments"] as? String else { return nil }
                     guard let playersData = data["players"] as? [[String: Any]] else { return nil }
                     
                     let players = playersData.compactMap { playerData -> Player? in
@@ -105,7 +143,14 @@ struct GameHistoryView: View {
                         return Player(name: name, buyin: buyin, cashout: cashout)
                     }
                     
-                    return GameSession(id: queryDocumentSnapshot.documentID, host: host, players: players)
+                    if let timestamp = data["date"] as? Timestamp {
+                        let dateSaved = timestamp.dateValue()
+                        // Use dateSaved when initializing GameSession
+                        return GameSession(id: queryDocumentSnapshot.documentID, host: host, comments: comments, players: players, date: dateSaved)
+                    }
+                    else {
+                        return GameSession(id: queryDocumentSnapshot.documentID, host: host, comments: comments, players: players, date: Date())
+                    }
                 }
             }
         }
@@ -115,5 +160,13 @@ struct GameHistoryView: View {
 struct GameHistoryView_Previews: PreviewProvider {
     static var previews: some View {
         GameHistoryView()
+    }
+}
+
+extension GameSession {
+    var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM d, yyyy"
+        return formatter.string(from: date)
     }
 }

@@ -21,6 +21,24 @@ struct HomeView: View {
             if isAuthenticated {
                 PokerSplitterView()
             } else {
+                HStack {
+                    Image(systemName: "suit.spade.fill")
+                        .resizable()
+                        .foregroundColor(.black)
+                        .frame(width: 50, height: 50)
+                    Image(systemName: "heart.fill")
+                        .resizable()
+                        .foregroundColor(.red)
+                        .frame(width: 50, height: 50)
+                    Image(systemName: "suit.club.fill")
+                        .resizable()
+                        .foregroundColor(.black)
+                        .frame(width: 50, height: 50)
+                    Image(systemName: "suit.diamond.fill")
+                        .resizable()
+                        .foregroundColor(.red)
+                        .frame(width: 50, height: 50)
+                }
                 if let userSession = session.session, !userSession.uid.isEmpty {
                     Text("Welcome Back!")
                         .padding()
@@ -70,7 +88,7 @@ struct HomeView: View {
                                             .padding()
                                     }
                 } else {
-                    Text("PokerSplitter")
+                    Text("POKER SPLITTER")
                         .font(.system(size: 30))
                         .fontWeight(.bold)
                         .frame(width: 400)

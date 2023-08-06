@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A3E042F2A800471006E9BF1 /* SingleGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E042E2A800471006E9BF1 /* SingleGameView.swift */; };
+		0A3E04312A8037F2006E9BF1 /* SpecialMomentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E04302A8037F2006E9BF1 /* SpecialMomentsView.swift */; };
 		0A6FB6442A7A167000066E84 /* Poker_SplitterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6FB6432A7A167000066E84 /* Poker_SplitterApp.swift */; };
 		0A6FB6482A7A167000066E84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6FB6472A7A167000066E84 /* Assets.xcassets */; };
 		0A6FB64B2A7A167000066E84 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6FB64A2A7A167000066E84 /* Preview Assets.xcassets */; };
@@ -70,6 +71,7 @@
 
 /* Begin PBXFileReference section */
 		0A3E042E2A800471006E9BF1 /* SingleGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleGameView.swift; sourceTree = "<group>"; };
+		0A3E04302A8037F2006E9BF1 /* SpecialMomentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialMomentsView.swift; sourceTree = "<group>"; };
 		0A6FB6402A7A167000066E84 /* Poker-Splitter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Poker-Splitter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6FB6432A7A167000066E84 /* Poker_SplitterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poker_SplitterApp.swift; sourceTree = "<group>"; };
 		0A6FB6472A7A167000066E84 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				0AB0F65F2A7C45B6007CEE05 /* SplitterView.swift */,
 				0A6FB6722A7A193D00066E84 /* PlayersView.swift */,
 				0AB0F6662A7C7539007CEE05 /* SaveGame.swift */,
+				0A3E04302A8037F2006E9BF1 /* SpecialMomentsView.swift */,
 			);
 			path = "Splitter Files";
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				0AB0F6672A7C7539007CEE05 /* SaveGame.swift in Sources */,
 				0AB0F6572A7C088D007CEE05 /* HomeView.swift in Sources */,
 				0A6FB6732A7A193D00066E84 /* PlayersView.swift in Sources */,
+				0A3E04312A8037F2006E9BF1 /* SpecialMomentsView.swift in Sources */,
 				0AB0F61A2A7B4AD0007CEE05 /* PokerSplitterView.swift in Sources */,
 				0AB0F6602A7C45B6007CEE05 /* SplitterView.swift in Sources */,
 				0AB0F6652A7C746B007CEE05 /* GameHistoryView.swift in Sources */,

@@ -22,6 +22,7 @@ struct PlayersView: View {
     @State private var showResults = false
     @State private var currentUserID: String = ""
     @State private var saveButtonText: String = "Save Game"
+    @State private var comments: String = ""
     
     
     
@@ -29,23 +30,40 @@ struct PlayersView: View {
         VStack {
             List {
                 if !showResults {
+                    GeometryReader { geometry in
+                        HStack {
+                            Text("Name")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .frame(width: geometry.size.width * 0.3)
+                            Text("Buyin")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .frame(width: geometry.size.width * 0.3)
+                            Text("Cashout")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .frame(width: geometry.size.width * 0.3)
+                        }
+                        .frame(height: 30, alignment: .center)
+                    }
                     ForEach(players.indices, id: \.self) { index in
                         GeometryReader { geometry in
                             HStack {
                                 TextField("Name", text: $players[index].name)
                                     .frame(width: geometry.size.width * 0.3)
                                 HStack {
-                                    Text("Buy-in:")
+                                    Text("$")
                                     TextField("Buyin", value: $players[index].buyin, formatter: NumberFormatter())
                                 }
                                 .fixedSize()
-                                .frame(width: geometry.size.width * 0.35)
+                                .frame(width: geometry.size.width * 0.37)
                                 HStack {
-                                    Text("Cash-out:")
+                                    Text("$")
                                     TextField("Cashout", value: $players[index].cashout, formatter: NumberFormatter())
                                 }
                                 .fixedSize()
-                                .frame(width: geometry.size.width * 0.4)
+                                .frame(width: geometry.size.width * 0.3)
                             }
                             .frame(height: 30, alignment: .center)
                         }
@@ -60,6 +78,12 @@ struct PlayersView: View {
                         .fontWeight(.bold)
                 }
             }
+            TextField("Comments/Notes", text: $comments)
+                .multilineTextAlignment(.center)
+                .padding()
+                .frame(width: 325, height: 120)
+                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray))
+            
             HStack {
                 if !showResults {
                     Button(action: {
@@ -105,12 +129,12 @@ struct PlayersView: View {
             }
         }
         .onAppear {
-                    if let user = Auth.auth().currentUser {
-                        currentUserID = user.uid
-                    } else {
-                        print("No user is signed in.")
-                    }
-                }
+            if let user = Auth.auth().currentUser {
+                currentUserID = user.uid
+            } else {
+                print("No user is signed in.")
+            }
+        }
     }
     
     private func resultStatement(for player: Player) -> String {
@@ -122,7 +146,7 @@ struct PlayersView: View {
         }
     }
     func saveGame() {
-        let game = SaveGame(host: host, players: players, userID: currentUserID)
+        let game = SaveGame(host: host, comments: comments, players: players, userID: currentUserID)
         game.saveToFirestore()
     }
 }

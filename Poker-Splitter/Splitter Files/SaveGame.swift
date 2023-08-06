@@ -11,10 +11,18 @@ let db = Firestore.firestore()
 
 struct SaveGame {
     var host: String
+    var comments: String
     var players: [Player]
     var userID: String
 
     func saveToFirestore() {
+        
+        let currentDate = Date()
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        let formattedDate = formatter.string(from: currentDate)
+        
         var playersArray: [[String: Any]] = []
 
         for player in players {
@@ -28,7 +36,9 @@ struct SaveGame {
 
         let sessionData: [String: Any] = [
             "host": host,
+            "comments": comments,
             "players": playersArray,
+            "date": formattedDate
             // Any other session-specific data...
         ]
 
