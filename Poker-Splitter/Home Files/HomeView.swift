@@ -17,131 +17,136 @@ struct HomeView: View {
     @State var errorMessage: String?
 
     var body: some View {
-        VStack {
-            if isAuthenticated {
-                PokerSplitterView()
-            } else {
-                HStack {
-                    Image(systemName: "suit.spade.fill")
-                        .resizable()
-                        .foregroundColor(.black)
-                        .frame(width: 50, height: 50)
-                    Image(systemName: "heart.fill")
-                        .resizable()
-                        .foregroundColor(.red)
-                        .frame(width: 50, height: 50)
-                    Image(systemName: "suit.club.fill")
-                        .resizable()
-                        .foregroundColor(.black)
-                        .frame(width: 50, height: 50)
-                    Image(systemName: "suit.diamond.fill")
-                        .resizable()
-                        .foregroundColor(.red)
-                        .frame(width: 50, height: 50)
-                }
-                if let userSession = session.session, !userSession.uid.isEmpty {
-                    Text("Welcome Back!")
-                        .padding()
-                        .foregroundColor(.black)
-                        .font(.largeTitle)
-                        .fontWeight(.black)
-                    TextField("Email", text: $email)
-                        .foregroundColor(.black)
-                        .padding(.horizontal)
-                        .padding()
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(50)
-                        .multilineTextAlignment(.center)
-                    SecureField("Password", text: $password)
-                        .foregroundColor(.black)
-                        .padding(.horizontal)
-                        .padding()
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(50)
-                        .multilineTextAlignment(.center)
-                    HStack {
-                        Button(action: signIn) {
-                            Text("Sign In")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .padding()
-                                .background(.red)
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                        }
-                        
-                        Button(action: signUp) {
-                            Text("Sign Up")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .padding()
-                                .background(.red)
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                        }
-                    }
-                    if let errorMessage = errorMessage {
-                                        Text(errorMessage)
-                                            .foregroundColor(.red)
-                                            .padding()
-                                    }
+        ZStack {
+            Color.white.edgesIgnoringSafeArea(.all)
+            VStack {
+                if isAuthenticated {
+                    PokerSplitterView()
+                        .background(Color.white)
+                        .edgesIgnoringSafeArea(.all)
                 } else {
-                    Text("POKER SPLITTER")
-                        .font(.system(size: 30))
-                        .fontWeight(.bold)
-                        .frame(width: 400)
-                        .ignoresSafeArea()
-                        .padding()
-                    TextField("Email", text: $email)
-                        .foregroundColor(.black)
-                        .padding(.horizontal)
-                        .padding()
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(50)
-                        .multilineTextAlignment(.center)
-                    SecureField("Password", text: $password)
-                        .foregroundColor(.black)
-                        .padding(.horizontal)
-                        .padding()
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(50)
-                        .multilineTextAlignment(.center)
-                    
                     HStack {
-                        Button(action: signIn) {
-                            Text("Sign In")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .padding()
-                                .background(.red)
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                        }
-                        
-                        Button(action: signUp) {
-                            Text("Sign Up")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .padding()
-                                .background(.red)
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                        }
+                        Image(systemName: "suit.spade.fill")
+                            .resizable()
+                            .foregroundColor(.black)
+                            .frame(width: 50, height: 50)
+                        Image(systemName: "heart.fill")
+                            .resizable()
+                            .foregroundColor(.red)
+                            .frame(width: 50, height: 50)
+                        Image(systemName: "suit.club.fill")
+                            .resizable()
+                            .foregroundColor(.black)
+                            .frame(width: 50, height: 50)
+                        Image(systemName: "suit.diamond.fill")
+                            .resizable()
+                            .foregroundColor(.red)
+                            .frame(width: 50, height: 50)
                     }
-                    .padding(.top)
-                    .padding(.top)
-                    if let errorMessage = errorMessage {
-                                        Text(errorMessage)
-                                            .foregroundColor(.red)
-                                            .padding()
-                                    }
+                    if let userSession = session.session, !userSession.uid.isEmpty {
+                        Text("Welcome Back!")
+                            .padding()
+                            .foregroundColor(.black)
+                            .font(.largeTitle)
+                            .fontWeight(.black)
+                        TextField("Email", text: $email)
+                            .foregroundColor(.black)
+                            .padding(.horizontal)
+                            .padding()
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(50)
+                            .multilineTextAlignment(.center)
+                        SecureField("Password", text: $password)
+                            .foregroundColor(.black)
+                            .padding(.horizontal)
+                            .padding()
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(50)
+                            .multilineTextAlignment(.center)
+                        HStack {
+                            Button(action: signIn) {
+                                Text("Sign In")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .padding()
+                                    .background(.red)
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                            
+                            Button(action: signUp) {
+                                Text("Sign Up")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .padding()
+                                    .background(.red)
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                        }
+                        if let errorMessage = errorMessage {
+                                            Text(errorMessage)
+                                                .foregroundColor(.red)
+                                                .padding()
+                                        }
+                    } else {
+                        Text("POKER SPLITTER")
+                            .font(.system(size: 30))
+                            .fontWeight(.bold)
+                            .frame(width: 400)
+                            .ignoresSafeArea()
+                            .padding()
+                        TextField("Email", text: $email)
+                            .foregroundColor(.black)
+                            .padding(.horizontal)
+                            .padding()
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(50)
+                            .multilineTextAlignment(.center)
+                        SecureField("Password", text: $password)
+                            .foregroundColor(.black)
+                            .padding(.horizontal)
+                            .padding()
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(50)
+                            .multilineTextAlignment(.center)
+                        
+                        HStack {
+                            Button(action: signIn) {
+                                Text("Sign In")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .padding()
+                                    .background(.red)
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                            
+                            Button(action: signUp) {
+                                Text("Sign Up")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .padding()
+                                    .background(.red)
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                        }
+                        .padding(.top)
+                        .padding(.top)
+                        if let errorMessage = errorMessage {
+                                            Text(errorMessage)
+                                                .foregroundColor(.red)
+                                                .padding()
+                                        }
+                    }
                 }
-            }
-        }.padding(.horizontal).onAppear(perform: session.listen)
+            }.padding(.horizontal).onAppear(perform: session.listen)
+        }
     }
 
     func signIn() {

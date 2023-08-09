@@ -28,93 +28,100 @@ struct GameHistoryView: View {
         
         if moveBack {
             PokerSplitterView()
+                .background(Color.white)
+                .edgesIgnoringSafeArea(.all)
         }
         
         else if let gameSelected = selectedGame {
             SingleGameView(session: gameSelected)
+                .background(Color.white)
+                .edgesIgnoringSafeArea(.all)
         }
         
         else {
-            NavigationView {
-                ZStack {
-                    ScrollView {
-                        Spacer().frame(maxHeight: .infinity)
-                        VStack {
-                            ForEach(gameSessions, id: \.id) { game in
-                                
-                                Button(action: {
-                                    self.selectedGame = game
-                                }) {
-                                    VStack(alignment: .leading) {
-                                        Text(game.formattedDate)
-                                            .fontWeight(.bold)
-                                            .font(.title2)
-                                            .foregroundColor(.black)
-                                            .padding(.bottom)
-                                            .multilineTextAlignment(.leading)
-                                        Text("Host: \(game.host)")
-                                            .font(.headline)
-                                            .foregroundColor(.black)
-                                            .padding(.bottom)
-                                        ForEach(game.players, id: \.name) { player in
-                                            VStack(alignment: .leading) {
-                                                Text("Player: \(player.name)")
-                                                    .foregroundColor(.black)
-                                                
-                                                
-                                                if player.buyin > player.cashout {
-                                                    Text("Buy-in: \(String(format: "%.2f", player.buyin)), Cash-out: \(String(format: "%.2f", player.cashout))")
-                                                        .foregroundColor(.red)
+            ZStack {
+                Color.white.edgesIgnoringSafeArea(.all)
+                NavigationView {
+                    ZStack {
+                        ScrollView {
+                            Spacer().frame(maxHeight: .infinity)
+                            VStack {
+                                ForEach(gameSessions, id: \.id) { game in
+                                    
+                                    Button(action: {
+                                        self.selectedGame = game
+                                    }) {
+                                        VStack(alignment: .leading) {
+                                            Text(game.formattedDate)
+                                                .fontWeight(.bold)
+                                                .font(.title2)
+                                                .foregroundColor(.black)
+                                                .padding(.bottom)
+                                                .multilineTextAlignment(.leading)
+                                            Text("Host: \(game.host)")
+                                                .font(.headline)
+                                                .foregroundColor(.black)
+                                                .padding(.bottom)
+                                            ForEach(game.players, id: \.name) { player in
+                                                VStack(alignment: .leading) {
+                                                    Text("Player: \(player.name)")
+                                                        .foregroundColor(.black)
                                                     
-                                                }
-                                                else if player.buyin < player.cashout {
-                                                    Text("Buy-in: \(String(format: "%.2f", player.buyin)), Cash-out: \(String(format: "%.2f", player.cashout))")
-                                                        .foregroundColor(.green)
                                                     
-                                                } else {
-                                                    Text("Buy-in: \(String(format: "%.2f", player.buyin)), Cash-out: \(String(format: "%.2f", player.cashout))")
-                                                        .foregroundColor(.gray)
-                                                    
+                                                    if player.buyin > player.cashout {
+                                                        Text("Buy-in: \(String(format: "%.2f", player.buyin)), Cash-out: \(String(format: "%.2f", player.cashout))")
+                                                            .foregroundColor(.red)
+                                                        
+                                                    }
+                                                    else if player.buyin < player.cashout {
+                                                        Text("Buy-in: \(String(format: "%.2f", player.buyin)), Cash-out: \(String(format: "%.2f", player.cashout))")
+                                                            .foregroundColor(.green)
+                                                        
+                                                    } else {
+                                                        Text("Buy-in: \(String(format: "%.2f", player.buyin)), Cash-out: \(String(format: "%.2f", player.cashout))")
+                                                            .foregroundColor(.gray)
+                                                        
+                                                    }
+                                                    if player.cashout == 0 {
+                                                        Text("Wow, that's awkward....")
+                                                            .foregroundColor(.red)
+                                                    }
                                                 }
-                                                if player.cashout == 0 {
-                                                    Text("Wow, that's awkward....")
-                                                        .foregroundColor(.red)
-                                                }
+                                                .padding(.bottom)
                                             }
-                                            .padding(.bottom)
+                                            Text("Click to View More")
+                                                .foregroundColor(.blue)
                                         }
-                                        Text("Click to View More")
-                                            .foregroundColor(.blue)
+                                        .padding()
+                                        .frame(width:325)
+                                        .background(Color.gray.opacity(0.1))
+                                        .cornerRadius(10)
+                                        .padding(.horizontal)
+                                        .multilineTextAlignment(.leading)
                                     }
-                                    .padding()
-                                    .frame(width:325)
-                                    .background(Color.gray.opacity(0.1))
-                                    .cornerRadius(10)
-                                    .padding(.horizontal)
-                                    .multilineTextAlignment(.leading)
+                                    
                                 }
-                                
                             }
                         }
-                    }
-                    VStack {
-                        Spacer()
-                        Button(action: {
-                            moveBack = true
-                        }) {
-                            Text("Go Back")
-                                .font(.headline)
-                                .padding()
-                                .background(Color.gray)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
+                        VStack {
+                            Spacer()
+                            Button(action: {
+                                moveBack = true
+                            }) {
+                                Text("Go Back")
+                                    .font(.headline)
+                                    .padding()
+                                    .background(Color.gray)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
+                            .padding(.bottom)
+                            .opacity(0.6)
                         }
-                        .padding(.bottom)
-                        .opacity(0.6)
                     }
+                    .navigationTitle("Game History")
+                    .onAppear(perform: loadData)
                 }
-                .navigationTitle("Game History")
-                .onAppear(perform: loadData)
             }
         }
     }

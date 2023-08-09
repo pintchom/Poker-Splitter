@@ -8,6 +8,45 @@
 import FirebaseAuth
 import FirebaseFirestore
 import SwiftUI
+import UIKit
+
+struct ImagePicker: UIViewControllerRepresentable {
+    @Binding var selectedImage: UIImage?
+    @Binding var isImagePickerPresented: Bool
+
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        var parent: ImagePicker
+
+        init(_ parent: ImagePicker) {
+            self.parent = parent
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+            if let uiImage = info[.originalImage] as? UIImage {
+                parent.selectedImage = uiImage
+            }
+
+            parent.isImagePickerPresented = false
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.isImagePickerPresented = false
+        }
+    }
+}
+
 
 struct Player {
     var name: String
@@ -24,99 +63,85 @@ struct PlayersView: View {
     @State private var saveButtonText: String = "Save Game"
     @State private var comments: String = ""
     
-    
-    
     var body: some View {
-        VStack {
-            List {
-                if !showResults {
-                    GeometryReader { geometry in
-                        HStack {
-                            Text("Name")
-                                .font(.headline)
-                                .fontWeight(.bold)
-                                .frame(width: geometry.size.width * 0.3)
-                            Text("Buyin")
-                                .font(.headline)
-                                .fontWeight(.bold)
-                                .frame(width: geometry.size.width * 0.3)
-                            Text("Cashout")
-                                .font(.headline)
-                                .fontWeight(.bold)
-                                .frame(width: geometry.size.width * 0.3)
-                        }
-                        .frame(height: 30, alignment: .center)
-                    }
-                    ForEach(players.indices, id: \.self) { index in
+        ZStack {
+            Color.white.edgesIgnoringSafeArea(.all)
+            VStack {
+                List {
+                    if !showResults {
                         GeometryReader { geometry in
                             HStack {
-                                TextField("Name", text: $players[index].name)
+                                Text("Name")
+                                    .font(.headline)
+                                    .fontWeight(.bold)
                                     .frame(width: geometry.size.width * 0.3)
-                                HStack {
-                                    Text("$")
-                                    TextField("Buyin", value: $players[index].buyin, formatter: NumberFormatter())
-                                }
-                                .fixedSize()
-                                .frame(width: geometry.size.width * 0.37)
-                                HStack {
-                                    Text("$")
-                                    TextField("Cashout", value: $players[index].cashout, formatter: NumberFormatter())
-                                }
-                                .fixedSize()
-                                .frame(width: geometry.size.width * 0.3)
+                                Text("Buyin")
+                                    .font(.headline)
+                                    .fontWeight(.bold)
+                                    .frame(width: geometry.size.width * 0.3)
+                                Text("Cashout")
+                                    .font(.headline)
+                                    .fontWeight(.bold)
+                                    .frame(width: geometry.size.width * 0.3)
                             }
                             .frame(height: 30, alignment: .center)
                         }
-                    }
-                } else {
-                    ForEach(players, id: \.name) { player in
-                        Text(resultStatement(for: player))
-                    }
-                    Text("Send Money to \(payment)")
-                        .font(.largeTitle)
-                        .multilineTextAlignment(.center)
-                        .fontWeight(.bold)
-                }
-            }
-            TextField("Comments/Notes", text: $comments)
-                .multilineTextAlignment(.center)
-                .padding()
-                .frame(width: 325, height: 120)
-                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray))
-            
-            HStack {
-                if !showResults {
-                    Button(action: {
-                        players.append(Player(name: "", buyin: 0.0, cashout: 0.0))
-                    }) {
-                        Text("Add Player")
-                            .font(.headline)
+                        ForEach(players.indices, id: \.self) { index in
+                            GeometryReader { geometry in
+                                HStack {
+                                    TextField("Name", text: $players[index].name)
+                                        .frame(width: geometry.size.width * 0.3)
+                                    HStack {
+                                        Text("$")
+                                        TextField("Buyin", value: $players[index].buyin, formatter: NumberFormatter())
+                                    }
+                                    .fixedSize()
+                                    .frame(width: geometry.size.width * 0.37)
+                                    HStack {
+                                        Text("$")
+                                        TextField("Cashout", value: $players[index].cashout, formatter: NumberFormatter())
+                                    }
+                                    .fixedSize()
+                                    .frame(width: geometry.size.width * 0.3)
+                                }
+                                .frame(height: 30, alignment: .center)
+                            }
+                        }
+                    } else {
+                        ForEach(players, id: \.name) { player in
+                            Text(resultStatement(for: player))
+                        }
+                        Text("Send Money to \(payment)")
+                            .font(.largeTitle)
+                            .multilineTextAlignment(.center)
                             .fontWeight(.bold)
-                            .padding()
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
                     }
-                    .padding()
                 }
-                Button(action: {
-                    showResults.toggle()
-                }) {
-                    Text(showResults ? "Reset" : "Submit")
-                        .font(.headline)
-                        .fontWeight(.bold)
+                TextField("Comments/Notes", text: $comments)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    .frame(width: 325, height: 120)
+                    .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray))
+                
+                HStack {
+                    if !showResults {
+                        Button(action: {
+                            players.append(Player(name: "", buyin: 0.0, cashout: 0.0))
+                        }) {
+                            Text("Add Player")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .padding()
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
                         .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                .padding()
-                if showResults {
+                    }
                     Button(action: {
-                        saveButtonText = "Saved!"
-                        saveGame()
+                        showResults.toggle()
                     }) {
-                        Text(saveButtonText)
+                        Text(showResults ? "Reset" : "Submit")
                             .font(.headline)
                             .fontWeight(.bold)
                             .padding()
@@ -125,15 +150,30 @@ struct PlayersView: View {
                             .cornerRadius(10)
                     }
                     .padding()
+                    if showResults {
+                        Button(action: {
+                            saveButtonText = "Saved!"
+                            saveGame()
+                        }) {
+                            Text(saveButtonText)
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .padding()
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .padding()
+                    }
                 }
             }
+            .onAppear {
+                if let user = Auth.auth().currentUser {
+                    currentUserID = user.uid
+                } else {
+                    print("No user is signed in.")
+                }
         }
-        .onAppear {
-            if let user = Auth.auth().currentUser {
-                currentUserID = user.uid
-            } else {
-                print("No user is signed in.")
-            }
         }
     }
     

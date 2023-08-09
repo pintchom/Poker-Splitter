@@ -22,7 +22,7 @@ struct SaveGame {
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
         let formattedDate = formatter.string(from: currentDate)
-        
+
         var playersArray: [[String: Any]] = []
 
         for player in players {
@@ -41,7 +41,8 @@ struct SaveGame {
             "date": formattedDate
             // Any other session-specific data...
         ]
-
+        
+        
         // Save the session data under the current user's collection
         db.collection("users").document(userID).collection("sessions").addDocument(data: sessionData) { err in
             if let err = err {
@@ -52,3 +53,4 @@ struct SaveGame {
         }
     }
 }
+
