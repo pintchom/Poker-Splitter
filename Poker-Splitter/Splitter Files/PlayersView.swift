@@ -13,34 +13,34 @@ import UIKit
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
     @Binding var isImagePickerPresented: Bool
-
+    
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.delegate = context.coordinator
         return picker
     }
-
+    
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-
+    
     class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         var parent: ImagePicker
-
+        
         init(_ parent: ImagePicker) {
             self.parent = parent
         }
-
+        
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let uiImage = info[.originalImage] as? UIImage {
                 parent.selectedImage = uiImage
             }
-
+            
             parent.isImagePickerPresented = false
         }
-
+        
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.isImagePickerPresented = false
         }
@@ -56,14 +56,23 @@ struct Player {
 
 struct PlayersView: View {
     var host: String
-    @State private var hostBuyin: Decimal = 0.0
-    @State private var hostCashOut: Decimal = 0.0
+    @State private var hostBuyin: Double = 0.0
+    @State private var hostCashOut: Double = 0.0
+    
     var payment: String
     @State private var players = [Player(name: "", buyin: 0.0, cashout: 0.0)]
     @State private var showResults = false
     @State private var currentUserID: String = ""
     @State private var saveButtonText: String = "Save Game"
     @State private var comments: String = ""
+    
+    var curBuyin: Double {
+        players.reduce(0) { $0 + $1.buyin } + hostBuyin
+    }
+
+    var curCashout: Double {
+        players.reduce(0) { $0 + $1.cashout } + hostCashOut
+    }
     
     var body: some View {
         ZStack {
@@ -130,6 +139,7 @@ struct PlayersView: View {
                         }
                         
                     } else {
+                        Text(resultStatement(for: Player(name: host, buyin: hostBuyin, cashout: hostCashOut)))
                         ForEach(players, id: \.name) { player in
                             Text(resultStatement(for: player))
                         }
@@ -138,6 +148,10 @@ struct PlayersView: View {
                             .multilineTextAlignment(.center)
                             .fontWeight(.bold)
                     }
+                }
+                HStack {
+                    Text("Total Buyin: \(String(format: "%.2f", curBuyin))")
+                    Text("Total Cashouts: \(String(format: "%.2f", curCashout))")
                 }
                 TextField("Comments/Notes", text: $comments)
                     .multilineTextAlignment(.center)
@@ -195,19 +209,28 @@ struct PlayersView: View {
                 } else {
                     print("No user is signed in.")
                 }
-        }
+            }
         }
     }
     
     private func resultStatement(for player: Player) -> String {
         let difference = player.cashout - player.buyin
-        if difference < 0 {
-            return "\(player.name) owes \(host) $\(abs(difference))"
+        if player.name == host {
+            if hostBuyin > hostCashOut {
+                return "\(host) lost $\(hostBuyin - hostCashOut)"
+            } else {
+                return "\(host) made $\(hostCashOut - hostBuyin)"
+            }
         } else {
-            return "\(player.name) gets $\(difference) from \(host)"
+            if difference < 0 {
+                return "\(player.name) owes \(host) $\(abs(difference))"
+            } else {
+                return "\(player.name) gets $\(difference) from \(host)"
+            }
         }
     }
     func saveGame() {
+        players.append(Player(name: host, buyin: hostBuyin, cashout: hostCashOut))
         let game = SaveGame(host: host, comments: comments, players: players, userID: currentUserID)
         game.saveToFirestore()
     }
