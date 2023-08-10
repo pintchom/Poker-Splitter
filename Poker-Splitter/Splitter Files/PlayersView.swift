@@ -93,13 +93,13 @@ struct PlayersView: View {
                                         .frame(width: geometry.size.width * 0.3)
                                     HStack {
                                         Text("$")
-                                        TextField("Buyin", value: $players[index].buyin, formatter: NumberFormatter())
+                                        TextField("Buyin", value: $players[index].buyin, formatter: NumberFormatter().with { $0.numberStyle = .decimal; $0.minimumFractionDigits = 2; $0.maximumFractionDigits = 2 })
                                     }
                                     .fixedSize()
                                     .frame(width: geometry.size.width * 0.37)
                                     HStack {
                                         Text("$")
-                                        TextField("Cashout", value: $players[index].cashout, formatter: NumberFormatter())
+                                        TextField("Cashout", value: $players[index].cashout, formatter: NumberFormatter().with { $0.numberStyle = .decimal; $0.minimumFractionDigits = 2; $0.maximumFractionDigits = 2 })
                                     }
                                     .fixedSize()
                                     .frame(width: geometry.size.width * 0.3)
@@ -194,5 +194,12 @@ struct PlayersView: View {
 struct PlayersView_Previews: PreviewProvider {
     static var previews: some View {
         PlayersView(host: "", payment: "")
+    }
+}
+
+extension NumberFormatter {
+    func with(_ changes: (NumberFormatter) -> Void) -> NumberFormatter {
+        changes(self)
+        return self
     }
 }
