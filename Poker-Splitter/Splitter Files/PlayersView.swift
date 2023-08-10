@@ -56,6 +56,8 @@ struct Player {
 
 struct PlayersView: View {
     var host: String
+    @State private var hostBuyin: Decimal = 0.0
+    @State private var hostCashOut: Decimal = 0.0
     var payment: String
     @State private var players = [Player(name: "", buyin: 0.0, cashout: 0.0)]
     @State private var showResults = false
@@ -107,6 +109,26 @@ struct PlayersView: View {
                                 .frame(height: 30, alignment: .center)
                             }
                         }
+                        GeometryReader { geometry in
+                            HStack {
+                                Text("\(host)")
+                                    .frame(width: geometry.size.width * 0.3)
+                                HStack {
+                                    Text("$")
+                                    TextField("Buyin", value: $hostBuyin, formatter: NumberFormatter().with { $0.numberStyle = .decimal; $0.minimumFractionDigits = 2; $0.maximumFractionDigits = 2 })
+                                }
+                                .fixedSize()
+                                .frame(width: geometry.size.width * 0.37)
+                                HStack {
+                                    Text("$")
+                                    TextField("Cashout", value: $hostCashOut, formatter: NumberFormatter().with { $0.numberStyle = .decimal; $0.minimumFractionDigits = 2; $0.maximumFractionDigits = 2 })
+                                }
+                                .fixedSize()
+                                .frame(width: geometry.size.width * 0.3)
+                            }
+                            .frame(height: 30, alignment: .center)
+                        }
+                        
                     } else {
                         ForEach(players, id: \.name) { player in
                             Text(resultStatement(for: player))
