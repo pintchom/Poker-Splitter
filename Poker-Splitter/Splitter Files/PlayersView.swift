@@ -150,8 +150,17 @@ struct PlayersView: View {
                     }
                 }
                 HStack {
-                    Text("Total Buyin: \(String(format: "%.2f", curBuyin))")
-                    Text("Total Cashouts: \(String(format: "%.2f", curCashout))")
+                    if curBuyin != curCashout {
+                        Text("Total Buyin: \(String(format: "%.2f", curBuyin))")
+                            .foregroundColor(.red)
+                        Text("Total Cashouts: \(String(format: "%.2f", curCashout))")
+                            .foregroundColor(.red)
+                    } else {
+                        Text("Total Buyin: \(String(format: "%.2f", curBuyin))")
+                            .foregroundColor(.green)
+                        Text("Total Cashouts: \(String(format: "%.2f", curCashout))")
+                            .foregroundColor(.green)
+                    }
                 }
                 TextField("Comments/Notes", text: $comments)
                     .multilineTextAlignment(.center)
